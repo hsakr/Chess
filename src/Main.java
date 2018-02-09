@@ -24,5 +24,9 @@ public class Main extends Application {
 
     public void startGame(){
 
+        while (true) { // current player can play in the paranthesis
+            break;
+        }
+
     }
 }

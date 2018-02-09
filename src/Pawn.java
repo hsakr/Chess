@@ -2,55 +2,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import java.util.Vector;
-public class Pawn extends ImageView implements ChessPiece  {
+public class Pawn extends ChessPiece {
 
-    private final Vector<Integer> movablePositions = new Vector<Integer>();
     private final boolean[] movablePositionsWithoutKill = {false, true, false}; // topleft, top, topright positions respectively
-    private Image image;
-    private Color color;
-    private int xPosition, yPosition;
 
-    public Pawn(Image image, Color color, int position){
-        super(image);
-        this.image = image;
-        this.color = color;
-        findPositionCoordinates(position);
-    }
-
-    /**
-     * Returns the color of this instance
-     * @return
-     */
-    @Override
-    public Color getColor() {
-        return this.color;
-    }
-
-    /**
-     * Gets the x and y coordinates based on the position in ObservableList in tilePane
-     * @param position
-     */
-    public void findPositionCoordinates(int position){
-        yPosition = position / 8;
-        double difference = position / 8.0;
-        double fractionalPart = (difference - (int)difference) * 8;
-        xPosition = (int)fractionalPart;
-    }
-
-    /**
-     * Returns the x positional coordinate
-     * @return
-     */
-    public int getXPosition(){
-        return this.xPosition;
-    }
-
-    /**
-     * Returns the y positional coordinate
-     * @return
-     */
-    public int getYPosition(){
-        return this.yPosition;
+    public Pawn(Image image, int position){
+        super(image, position);
     }
 
     /*
@@ -76,22 +33,11 @@ public class Pawn extends ImageView implements ChessPiece  {
         colorMovablePositions(chessBoard);
     }
 
-    private void findMovablePositions(int[] movablePositions, ChessBoard chessBoard){
+    @Override
+    protected void findMovablePositions(int[] movablePositions, ChessBoard chessBoard){
         for (int i = 0; i < movablePositions.length; i++){
             movablePosition(movablePositions[i], chessBoard, movablePositionsWithoutKill[i]);
         }
-    }
-    /**
-     * Method converts x and y coordinates to position in Observablelist tilePane
-     * @param xPosition
-     * @param yPosition
-     * @return
-     */
-    public int getPositionFromCoordinates(int xPosition, int yPosition){
-        if(xPosition >= 8 || yPosition >= 8 || xPosition < 0 || yPosition < 0){
-            return Integer.MAX_VALUE;
-        }
-        return (xPosition) + (yPosition * 8);
     }
 
     /**
@@ -125,17 +71,6 @@ public class Pawn extends ImageView implements ChessPiece  {
             return true;
         } else {
             return false;
-        }
-    }
-
-    /**
-     * Colors movable positions yellow
-     * @param chessBoard
-     */
-    private void colorMovablePositions(ChessBoard chessBoard){
-        for(int position : movablePositions){
-            ChessSquare chessSquare = (ChessSquare)chessBoard.getChildren().get(position);
-            chessSquare.getSquare().setFill(yellow);
         }
     }
 }
