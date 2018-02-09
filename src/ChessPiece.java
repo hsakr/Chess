@@ -1,7 +1,9 @@
 import javafx.scene.paint.Color;
 
-public interface ChessPiece {
-    public Color getColor();
+public interface ChessPiece extends Colors {
     public void pieceSelected();
+    public Color getColor();
+    public int getXPosition();
+    public int getYPosition();
     //public void move();
 }
