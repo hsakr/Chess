@@ -3,11 +3,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class ChessSquare extends StackPane {
+import java.util.Vector;
+
+public class ChessSquare extends StackPane implements Colors{
 
     public static final int squareLength = 80;
-    public static final Color gray = Color.LIGHTGRAY;
-    public static final Color white = Color.WHITE;
 
     private Rectangle square = new Rectangle(squareLength, squareLength);
     private int xPosition, yPosition;
@@ -16,7 +16,7 @@ public class ChessSquare extends StackPane {
     public ChessSquare(int position){
         this.position = position;
         findPositionCoordinates(position);
-        square.setFill(getSquareColor());
+        setSquareColor();
         this.getChildren().add(square);
         this.setOnMouseClicked(e -> squareSelected());
     }
@@ -36,21 +36,34 @@ public class ChessSquare extends StackPane {
      * Returns the color of the square at a certain position on the board
      * @return
      */
-    private Color getSquareColor(){
+    public void setSquareColor(){
         if (xPosition % 2 == 0 && (yPosition == 0 || yPosition % 2 == 0)){
-            return white;
+            square.setFill(white);
         } else if (xPosition % 2 != 0 && yPosition % 2 != 0){
-            return white;
+            square.setFill(white);
         } else {
-            return gray;
+            square.setFill(gray);
         }
     }
 
     public void squareSelected(){
         System.out.println("Square Position: " + position + " xPosition: " + xPosition + " yPosition: " + yPosition);
-        if(getChildren().size() == 2){
+        if(ChessPiece.movablePositions.contains(position)){
+            ChessPiece.movablePositions.clear();
+            ChessBoard chessBoard = ChessBoardManager.getInstance().getChessBoard();
+            chessBoard.colorSquares();
+            if (chessBoard.getBoard()[position].getChildren().size() == 2) {
+                chessBoard.getBoard()[position].getChildren().remove(1);
+            }
+            chessBoard.getBoard()[position].getChildren().add(
+                    chessBoard.getBoard()[ChessPiece.pieceSelectedPosition].getChildren().get(1));
+            Main.nextPlayerTurn();
+        } else if(getChildren().size() == 2 && Main.checkPlayerTurn((ChessPiece) getChildren().get(1))){
+            ChessPiece.movablePositions.clear();
+            ChessBoard chessBoard = ChessBoardManager.getInstance().getChessBoard();
+            chessBoard.colorSquares();
             ChessPiece chessPiece = (ChessPiece) getChildren().get(1);
-            chessPiece.pieceSelected();
+            chessPiece.pieceSelected(position, xPosition, yPosition);
         }
     }
 

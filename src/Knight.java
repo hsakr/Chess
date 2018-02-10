@@ -4,15 +4,16 @@ import javafx.scene.paint.Color;
 
 public class Knight extends ChessPiece {
 
-    public Knight(Image image, int position){
-        super(image, position);
+    public Knight(Image image){
+        super(image);
     }
 
     /*
      * Method called when a chess piece is selected
      *
      */
-    public void pieceSelected(){
+    public void pieceSelected(int pieceSelectedPosition, int xPosition, int yPosition){
+        this.pieceSelectedPosition = pieceSelectedPosition;
         ChessBoardManager chessBoardManager = ChessBoardManager.getInstance();
         ChessBoard chessBoard = chessBoardManager.getChessBoard();
 

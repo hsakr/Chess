@@ -7,14 +7,14 @@ import java.util.Vector;
 public abstract class ChessPiece extends ImageView implements Colors{
     protected Image image;
     protected Color color;
-    protected int xPosition, yPosition;
-    protected final Vector<Integer> movablePositions = new Vector<Integer>();
+    public static Vector<Integer> movablePositions = new Vector<Integer>();
+    public static String pieceSelectedName;
+    public static int pieceSelectedPosition;
 
-    public ChessPiece(Image image, int position){
+    public ChessPiece(Image image){
         super(image);
         this.image = image;
         findColor();
-        findPositionCoordinates(position);
     }
 
     /**
@@ -33,34 +33,7 @@ public abstract class ChessPiece extends ImageView implements Colors{
         }
     }
 
-    /**
-     * Gets the x and y coordinates based on the position in ObservableList in tilePane
-     * @param position
-     */
-    protected void findPositionCoordinates(int position){
-        yPosition = position / 8;
-        double difference = position / 8.0;
-        double fractionalPart = (difference - (int)difference) * 8;
-        xPosition = (int)fractionalPart;
-    }
-
-    /**
-     * Returns the x positional coordinate
-     * @return
-     */
-    public int getXPosition(){
-        return this.xPosition;
-    }
-
-    /**
-     * Returns the y positional coordinate
-     * @return
-     */
-    public int getYPosition(){
-        return this.yPosition;
-    }
-
-    public abstract void pieceSelected();
+    public abstract void pieceSelected(int position, int xPosition, int yPosition);
 
     protected void findMovablePositions(int[] movablePositions, ChessBoard chessBoard){
         for (int i = 0; i < movablePositions.length; i++){

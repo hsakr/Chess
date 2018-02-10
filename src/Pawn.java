@@ -1,20 +1,19 @@
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import java.util.Vector;
+
 public class Pawn extends ChessPiece {
 
     private final boolean[] movablePositionsWithoutKill = {false, true, false}; // topleft, top, topright positions respectively
 
-    public Pawn(Image image, int position){
-        super(image, position);
+    public Pawn(Image image){
+        super(image);
     }
 
     /*
      * Method called when a chess piece is selected
      *
      */
-    public void pieceSelected(){
+    public void pieceSelected(int pieceSelectedPosition, int xPosition, int yPosition){
+        this.pieceSelectedPosition = pieceSelectedPosition;
         ChessBoardManager chessBoardManager = ChessBoardManager.getInstance();
         ChessBoard chessBoard = chessBoardManager.getChessBoard();
 
@@ -62,7 +61,7 @@ public class Pawn extends ChessPiece {
     private boolean checkSquareForPiece(ChessSquare chessSquare, boolean canMoveWithoutKill){
         if(chessSquare.getChildren().size() == 2){
             ChessPiece chessPiece = (ChessPiece)chessSquare.getChildren().get(1);
-            if(chessPiece.getColor() != color){
+            if(chessPiece.getColor() != color && !canMoveWithoutKill){
                 return true;
             } else {
                 return false;

@@ -2,12 +2,19 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 
+import java.util.Vector;
+
 public class ChessBoard extends TilePane implements Colors{
-    public static final int squareLength = 80;
-    private boolean startWhite = true;
+
+    private ChessSquare[] board;
 
     public ChessBoard(){
+        board = new ChessSquare[64];
         initializeBoard();
+    }
+
+    public ChessSquare[] getBoard(){
+        return this.board;
     }
 
     /*
@@ -19,6 +26,7 @@ public class ChessBoard extends TilePane implements Colors{
         for(int i = 0; i <= 63; i++){ // Creating the chess squares
             ChessSquare square = new ChessSquare(i);
             this.getChildren().add(square);
+            board[i] = square;
         }
         placePieces();
     }
@@ -39,68 +47,46 @@ public class ChessBoard extends TilePane implements Colors{
      * Places the rooks in their initial positions
      */
     private void placeRooks(){
-        ChessSquare leftBlackRook = (ChessSquare) this.getChildren().get(0);
-        ChessSquare rightBlackRook = (ChessSquare) this.getChildren().get(7);
-        leftBlackRook.getChildren().add(new Rook(new Image("Pieces/black_rook.png"), 0));
-        rightBlackRook.getChildren().add(new Rook(new Image("Pieces/black_rook.png"), 7));
-
-        ChessSquare leftWhiteRook = (ChessSquare) this.getChildren().get(56);
-        ChessSquare rightWhiteRook = (ChessSquare) this.getChildren().get(63);
-        leftWhiteRook.getChildren().add(new Rook(new Image("Pieces/white_rook.png"), 56));
-        rightWhiteRook.getChildren().add(new Rook(new Image("Pieces/white_rook.png"), 63));
+        board[0].getChildren().add(new Rook(new Image("Pieces/black_rook.png")));
+        board[7].getChildren().add(new Rook(new Image("Pieces/black_rook.png")));
+        board[56].getChildren().add(new Rook(new Image("Pieces/white_rook.png")));
+        board[63].getChildren().add(new Rook(new Image("Pieces/white_rook.png")));
     }
 
     /*
      * Places the knights in their initial positions
      */
     private void placeKnights(){
-        ChessSquare leftBlackKnight = (ChessSquare) this.getChildren().get(1);
-        ChessSquare rightBlackKnight = (ChessSquare) this.getChildren().get(6);
-        leftBlackKnight.getChildren().add(new Knight(new Image("Pieces/black_knight.png"), 1));
-        rightBlackKnight.getChildren().add(new Knight(new Image("Pieces/black_knight.png"), 6));
-
-        ChessSquare leftWhiteKnight = (ChessSquare) this.getChildren().get(57);
-        ChessSquare rightWhiteKnight = (ChessSquare) this.getChildren().get(62);
-        leftWhiteKnight.getChildren().add(new Knight(new Image("Pieces/white_knight.png"), 57));
-        rightWhiteKnight.getChildren().add(new Knight(new Image("Pieces/white_knight.png"), 62));
-
-        ChessSquare leftWhiteRook1 = (ChessSquare) this.getChildren().get(27);
-        leftWhiteRook1.getChildren().add(new Rook(new Image("Pieces/white_king.png"), 27));
+        board[1].getChildren().add(new Knight(new Image("Pieces/black_knight.png")));
+        board[6].getChildren().add(new Knight(new Image("Pieces/black_knight.png")));
+        board[57].getChildren().add(new Knight(new Image("Pieces/white_knight.png")));
+        board[62].getChildren().add(new Knight(new Image("Pieces/white_knight.png")));
     }
 
     /*
      * Places the Bishops in their initial positions
      */
     private void placeBishops(){
-        ChessSquare leftBlackBishop = (ChessSquare) this.getChildren().get(2);
-        ChessSquare rightBlackBishop = (ChessSquare) this.getChildren().get(5);
-        leftBlackBishop.getChildren().add(new Bishop(new Image("Pieces/black_bishop.png"), 2));
-        rightBlackBishop.getChildren().add(new Bishop(new Image("Pieces/black_bishop.png"), 5));
-
-        ChessSquare leftWhiteBishop = (ChessSquare) this.getChildren().get(58);
-        ChessSquare rightWhiteBishop = (ChessSquare) this.getChildren().get(61);
-        leftWhiteBishop.getChildren().add(new Bishop(new Image("Pieces/white_bishop.png"), 58));
-        rightWhiteBishop.getChildren().add(new Bishop(new Image("Pieces/white_bishop.png"), 61));
+        board[2].getChildren().add(new Bishop(new Image("Pieces/black_bishop.png")));
+        board[5].getChildren().add(new Bishop(new Image("Pieces/black_bishop.png")));
+        board[58].getChildren().add(new Bishop(new Image("Pieces/white_bishop.png")));
+        board[61].getChildren().add(new Bishop(new Image("Pieces/white_bishop.png")));
     }
 
     /*
      * Places the Queens in their initial positions
      */
     private void placeQueens(){
-        ChessSquare whiteQueen = (ChessSquare) this.getChildren().get(59);
-        ChessSquare blackQueen = (ChessSquare) this.getChildren().get(3);
-        whiteQueen.getChildren().add(new Queen(new Image("Pieces/white_queen.png"), 59));
-        blackQueen.getChildren().add(new Queen(new Image("Pieces/black_queen.png"), 3));
+        board[3].getChildren().add(new Queen(new Image("Pieces/black_queen.png")));
+        board[59].getChildren().add(new Queen(new Image("Pieces/white_queen.png")));
     }
 
     /*
      * Places the Kings in their initial positions
      */
     private void placeKings(){
-        ChessSquare whiteKing = (ChessSquare) this.getChildren().get(60);
-        whiteKing.getChildren().add(new King(new Image("Pieces/white_king.png"), 60));
-        ChessSquare blackKing = (ChessSquare) this.getChildren().get(4);
-        blackKing.getChildren().add(new King(new Image("Pieces/black_king.png"), 4));
+        board[4].getChildren().add(new King(new Image("Pieces/black_king.png")));
+        board[60].getChildren().add(new King(new Image("Pieces/white_king.png")));
     }
 
     /*
@@ -108,13 +94,17 @@ public class ChessBoard extends TilePane implements Colors{
      */
     private void placePawns(){
         for(int i = 48; i < 56; i++){
-            ChessSquare whitePawn = (ChessSquare) this.getChildren().get(i);
-            whitePawn.getChildren().add(new Pawn(new Image("Pieces/white_pawn.png"), i));
+            board[i].getChildren().add(new Pawn(new Image("Pieces/white_pawn.png")));
         }
 
         for(int i = 8; i < 16; i++){
-            ChessSquare blackPawn = (ChessSquare) this.getChildren().get(i);
-            blackPawn.getChildren().add(new Pawn(new Image("Pieces/black_pawn.png"), i));
+            board[i].getChildren().add(new Pawn(new Image("Pieces/black_pawn.png")));
+        }
+    }
+
+    public void colorSquares(){
+        for (ChessSquare chessSquare : board){
+            chessSquare.setSquareColor();
         }
     }
 }

@@ -4,11 +4,12 @@ import javafx.scene.paint.Color;
 
 public class Queen extends ChessPiece {
 
-    public Queen(Image image, int position){
-        super(image, position);
+    public Queen(Image image){
+        super(image);
     }
 
-    public void pieceSelected(){
+    public void pieceSelected(int pieceSelectedPosition, int xPosition, int yPosition){
+        this.pieceSelectedPosition = pieceSelectedPosition;
         ChessBoardManager chessBoardManager = ChessBoardManager.getInstance();
         ChessBoard chessBoard = chessBoardManager.getChessBoard();
 
