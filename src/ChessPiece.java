@@ -8,7 +8,6 @@ public abstract class ChessPiece extends ImageView implements Colors{
     protected Image image;
     protected Color color;
     public static Vector<Integer> movablePositions = new Vector<Integer>();
-    public static String pieceSelectedName;
     public static int pieceSelectedPosition;
 
     public ChessPiece(Image image){

@@ -15,109 +15,34 @@ public class Queen extends ChessPiece {
 
         System.out.println("xPosition: " + xPosition + " yPosition: " + yPosition);
 
-        for (int i = yPosition - 1; i >= 0; i--){ // checks upward direction for movement
-            int position = getPositionFromCoordinates(xPosition, i);
-            if (movablePosition(position, chessBoard)){
-                if(squareContainsPiece(position, chessBoard)){
-                    break;
-                }
-            } else {
-                break;
-            }
-        }
-
-        for (int j = yPosition + 1; j < 8; j++){ // checks downward direction for movement
-            int position = getPositionFromCoordinates(xPosition, j);
-            if (movablePosition(position, chessBoard)){
-                if(squareContainsPiece(position, chessBoard)){
-                    break;
-                }
-            } else {
-                break;
-            }
-        }
-
-        for (int k = xPosition + 1; k < 8; k++){ // checks downward direction for movement
-            int position = getPositionFromCoordinates(k, yPosition);
-            if (movablePosition(position, chessBoard)){
-                if(squareContainsPiece(position, chessBoard)){
-                    break;
-                }
-            } else {
-                break;
-            }
-        }
-
-        for (int l = xPosition - 1; l < 8; l--){ // checks downward direction for movement
-            int position = getPositionFromCoordinates(l, yPosition);
-            if (movablePosition(position, chessBoard)){
-                if(squareContainsPiece(position, chessBoard)){
-                    break;
-                }
-            } else {
-                break;
-            }
-        }
-
-        int positionX = xPosition + 1;
-        int positionY = yPosition - 1;
-        while (positionX < 8 && positionY < 8){ // checks top right direction for movement
-            int position = getPositionFromCoordinates(positionX, positionY);
-            if (movablePosition(position, chessBoard)){
-                if(squareContainsPiece(position, chessBoard)){
-                    break;
-                }
-            } else {
-                break;
-            }
-            positionX++;
-            positionY--;
-        }
-
-        positionX = xPosition - 1;
-        positionY = yPosition - 1;
-        while (positionX < 8 && positionY < 8){ // checks top left direction for movement
-            int position = getPositionFromCoordinates(positionX, positionY);
-            if (movablePosition(position, chessBoard)){
-                if(squareContainsPiece(position, chessBoard)){
-                    break;
-                }
-            } else {
-                break;
-            }
-            positionX--;
-            positionY--;
-        }
-
-        positionX = xPosition + 1;
-        positionY = yPosition + 1;
-        while (positionX < 8 && positionY < 8){ // checks bottom right direction for movement
-            int position = getPositionFromCoordinates(positionX, positionY);
-            if (movablePosition(position, chessBoard)){
-                if(squareContainsPiece(position, chessBoard)){
-                    break;
-                }
-            } else {
-                break;
-            }
-            positionX++;
-            positionY++;
-        }
-
-        positionX = xPosition - 1;
-        positionY = yPosition + 1;
-        while (positionX < 8 && positionY < 8){ // checks bottom left direction for movement
-            int position = getPositionFromCoordinates(positionX, positionY);
-            if (movablePosition(position, chessBoard)){
-                if(squareContainsPiece(position, chessBoard)){
-                    break;
-                }
-            } else {
-                break;
-            }
-            positionX--;
-            positionY++;
-        }
+        checkContinuousDirection(xPosition, yPosition, 0, -1, chessBoard); // checks upward direction for movement
+        checkContinuousDirection(xPosition, yPosition, 0, +1, chessBoard); // checks downward direction for movement
+        checkContinuousDirection(xPosition, yPosition, +1, 0, chessBoard); // checks right direction for movement
+        checkContinuousDirection(xPosition, yPosition, -1, 0, chessBoard); // checks left direction for movement
+        checkContinuousDirection(xPosition, yPosition, +1, -1, chessBoard); // checks top right direction for movement
+        checkContinuousDirection(xPosition, yPosition, -1, -1, chessBoard); // checks top left direction for movement
+        checkContinuousDirection(xPosition, yPosition, +1, +1, chessBoard); // checks bottom right direction for movement
+        checkContinuousDirection(xPosition, yPosition, -1, +1, chessBoard); // checks bottom left direction for movement
         colorMovablePositions(chessBoard);
+    }
+
+    /*
+     * Checks continuous direction for movable positions
+     */
+    private void checkContinuousDirection(int xPosition, int yPosition, int moveX, int moveY, ChessBoard chessBoard){
+        xPosition = xPosition + moveX;
+        yPosition = yPosition + moveY;
+        while (xPosition < 8 && yPosition < 8){ // checks bottom left direction for movement
+            int position = getPositionFromCoordinates(xPosition, yPosition);
+            if (movablePosition(position, chessBoard)){
+                if(squareContainsPiece(position, chessBoard)){
+                    break;
+                }
+            } else {
+                break;
+            }
+            xPosition += moveX;
+            yPosition += moveY;
+        }
     }
 }
