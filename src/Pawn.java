@@ -27,6 +27,10 @@ public class Pawn extends ChessPiece {
         int topLeftPosition = getPositionFromCoordinates((color == white) ? xPosition - 1: xPosition + 1
                 , (color == white) ? yPosition - 1 : yPosition + 1);
 
+        if((yPosition == 6 && color == white) || (yPosition == 1 && color == black)){ // special move that pawn can make at starting position
+            movablePosition(getPositionFromCoordinates(xPosition, (color == white) ? yPosition - 2 : yPosition + 2), chessBoard, true);
+        }
+
         int[] movablePositionsToCheck = {topLeftPosition, topPosition, topRightPosition};
         findMovablePositions(movablePositionsToCheck, chessBoard);
         colorMovablePositions(chessBoard);
